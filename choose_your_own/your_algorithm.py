@@ -30,8 +30,20 @@ plt.show()
 
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+from time import time
 
-
+clf = KNeighborsClassifier(n_neighbors=3)
+t = time()
+clf.fit(features_train, labels_train)
+print("Tempo de treinamento:", round(time()-t, 3), "s")
+t = time()
+pred = clf.predict(features_test)
+print("Tempo de teste: ", round(time() - t, 3), "s")
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(pred, labels_test)
+print(acc)
 
 
 
@@ -42,3 +54,4 @@ try:
     prettyPicture(clf, features_test, labels_test)
 except NameError:
     pass
+plt.show()
