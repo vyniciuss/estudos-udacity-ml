@@ -86,17 +86,21 @@ from sklearn.preprocessing import MinMaxScaler
 #pred = kmeans.labels_
 
 #codigo depois do scaling
-
-minmaxscaler = MinMaxScaler()
-features_rescaled = minmaxscaler.fit_transform(finance_features)
+scaler = MinMaxScaler()
+features_rescaled = scaler.fit_transform(finance_features)
 clf = KMeans(n_clusters = 2)
 pred = clf.fit_predict(features_rescaled)
 
+#Qual seria o valor de um salary de $200.000 na nova escala? 
+# e de um exercised_stock_options de $1 milhao?
+#test_data = numpy.array([[200000., 1000000.]])
+#data_test = scaler.transform(test_data)
+#print data_test
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi = False, name = "clusters_after_scaling.pdf", f1_name = feature_1, f2_name = feature_2)
-    Draw(pred, finance_features, poi, mark_poi = False, name = "clusters_before_scaling.pdf", f1_name = feature_1, f2_name = feature_2)
+    Draw(pred, features_rescaled, poi, mark_poi = False, name = "clusters_after_scaling.pdf", f1_name = feature_1, f2_name = feature_2)
+    #Draw(pred, finance_features, poi, mark_poi = False, name = "clusters_before_scaling.pdf", f1_name = feature_1, f2_name = feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
