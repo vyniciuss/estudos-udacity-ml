@@ -23,10 +23,28 @@ data_dict = pickle.load(open("../final_project/final_project_dataset.pkl", "r") 
 features_list = ["poi", "salary"]
 
 data = featureFormat(data_dict, features_list)
+print data
 labels, features = targetFeatureSplit(data)
 
 
 
 ### it's all yours from here forward!  
+from sklearn.cross_validation import train_test_split
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn.metrics import accuracy_score
+from time import time
 
+features_train, features_test, labels_train, labels_test = train_test_split(features, labels, test_size=0.3, random_state=42)
 
+clf = DecisionTreeClassifier()
+
+t = time()
+clf.fit(features_train, labels_train)
+print("Tempo de treinamento:", round(time() - t, 4), "s")
+
+t = time()
+predictions = clf.predict(features_test)
+print("Tempo de previsao:", round(time() - t, 4), "s")
+
+accuracy = accuracy_score(labels_test, predictions)
+print("Previsoes com uma precisao de " + str(accuracy * 100) + " %") 

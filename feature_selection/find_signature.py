@@ -1,8 +1,11 @@
 #!/usr/bin/python
 
 import pickle
-import numpy
-numpy.random.seed(42)
+import numpy as np
+from sklearn import tree
+from sklearn.metrics import accuracy_score
+import re
+np.random.seed(42)
 
 
 ### The words (features) and authors (labels), already largely processed.
@@ -12,7 +15,14 @@ words_file = "../text_learning/your_word_data.pkl"
 authors_file = "../text_learning/your_email_authors.pkl"
 word_data = pickle.load( open(words_file, "r"))
 authors = pickle.load( open(authors_file, "r") )
+print type(word_data)
+new_word_data = []
+#removendo a palavra de maior importancia encontrada
+signature = re.compile(r'sshacklensf', re.I)
+for word in word_data:
+    new_word_data.append(signature.sub("", word))
 
+word_data = new_word_data
 
 
 ### test_size is the percentage of events assigned to the test set (the
@@ -37,7 +47,34 @@ labels_train   = labels_train[:150]
 
 
 
-### your code goes here
+#tamanho dos dados de treinamento
+#print len(features_train)
 
+
+
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features_train, labels_train)
+pred = clf.predict(features_test)
+accuracy = accuracy_score(pred, labels_test)
+print "Acuracia: {}".format(accuracy)
+
+importances = clf.feature_importances_
+
+#obter a maior importance encontrado
+max_value = max(importances)
+print "Maior importancia encontrada: {}".format(max_value)
+#obter o index do maior importance encontrado
+index = list(importances).index(max_value)
+print "Index da maior importancia: {}".format(index)
+
+names = vectorizer.get_feature_names()
+print "Palavra mais importante: {}".format(names[index])
+
+#ordena o array de importancias em ordem decrescente 
+# como o primeiro valor e 0, entao subtrai 1 do tamanho
+indices = np.argsort(importances)[::-1]
+# top 10 das palavras mais importantes 
+for i in range(10):
+    print "feature no. {}: {} ({})".format(i + 1, names[indices[i]], importances[indices[i]])
 
 
