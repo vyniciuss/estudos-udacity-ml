@@ -15,14 +15,7 @@ words_file = "../text_learning/your_word_data.pkl"
 authors_file = "../text_learning/your_email_authors.pkl"
 word_data = pickle.load( open(words_file, "r"))
 authors = pickle.load( open(authors_file, "r") )
-print type(word_data)
-new_word_data = []
-#removendo a palavra de maior importancia encontrada
-signature = re.compile(r'sshacklensf', re.I)
-for word in word_data:
-    new_word_data.append(signature.sub("", word))
 
-word_data = new_word_data
 
 
 ### test_size is the percentage of events assigned to the test set (the

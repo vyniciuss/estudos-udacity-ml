@@ -51,7 +51,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         extracted_text  = parseOutText(email)
         ### use str.replace() to remove any instances of the words
         ### ["sara", "shackleton", "chris", "germani"]
-        signature = re.compile(r'(sara|shackleton|chris|germani)', re.I)
+        signature = re.compile(r'(sara|shackleton|chris|germani|sshacklensf)', re.I)
         extracted_text = signature.sub("", extracted_text)
         ### append the text to word_data
         word_data.append(extracted_text )
